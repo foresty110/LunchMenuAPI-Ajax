@@ -81,7 +81,7 @@
       // 이름 셀에 링크 넣기
       const nameCell = document.createElement("td");
       const link = document.createElement("a");
-      link.href = "06_detail.html?id=2";
+      link.href = "detail.html?id=2";
       link.textContent = item["이름"];
       link.target = "_blank"; // 새 탭
       nameCell.appendChild(link);
@@ -105,19 +105,6 @@
 
     const data = await response.json();
     console.log("get all 결과:", data);
-
-  }
-
-  //GET 특정 메뉴 조회
-  async function getMenuById(id) {
-    const url = "https://696683a5-297e-4147-b7a2-30c33754b9b7.mock.pstmn.io/menu/${id}"
-
-    const response = await fetch(url, {
-      method: "GET"
-    });
-
-    const data = await response.json();
-    console.log("get by id 결과:", data);
 
   }
 
