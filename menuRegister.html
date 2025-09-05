@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>점심 메뉴 추천기</title>
+</head>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    form {
+        background-color: white;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 450px;
+        box-sizing: border-box;
+    }
+
+    h1 {
+        color: #FF7F50;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    div {
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 8px;
+    }
+
+    #spicylevel,
+    #name {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+        font-size: 1em;
+    }
+
+    .radio-group label {
+        color: #555;
+        font-weight: normal;
+        margin-right: 15px;
+        cursor: pointer;
+    }
+
+    input[type="radio"] {
+        accent-color: #FF7F50;
+        width: 16px;
+        height: 16px;
+        vertical-align: middle;
+    }
+
+    input[type="range"] {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 10px;
+        background: #E0F2F1;
+        border-radius: 5px;
+        margin-top: 5px;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 20px;
+        width: 20px;
+        background: #FF7F50;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    #priceValue {
+        text-align: right;
+        font-weight: normal;
+        color: #555;
+        font-size: 0.9em;
+    }
+
+    #submit {
+        width: 100%;
+        padding: 15px;
+        background-color: #FF7F50;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    #submit:hover {
+        background-color: #E66A3D;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    #submit:active {
+        background-color: #CC572A;
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+</style>
+<body>
+<form id="selectForm">
+    <h1>점심 메뉴 등록</h1>
+    <h3>메뉴 이름</h3>
+    <input type="text" id="name" name="name" width="100" maxlength="30" minlength="1
+">
+    <h3>맵기 정도</h3>
+    <select id="spicylevel" name="spicylevel">
+        <option value="level1">순한맛</option>
+        <option value="level2">보통맛</option>
+        <option value="level3">매운맛</option>
+        <option value="level4">아주 매운맛</option>
+    </select>
+
+    <h3>가격</h3>
+    <input type="range" id="price" name="price" min="1" max="100" value="3">
+    <div id="priceValue">3천원</div>
+
+    <h3>음식 종류</h3>
+    <input type="radio" id="Korean" name="foodType" value="한식">
+    <label for="Korean">한식</label><br>
+
+    <input type="radio" id="Japanese" name="foodType" value="일식">
+    <label for="Japanese">일식</label><br>
+
+    <input type="radio" id="Chinese" name="foodType" value="중식">
+    <label for="Chinese">중식</label><br>
+
+    <input type="radio" id="Western" name="foodType" value="양식">
+    <label for="Western">양식</label><br>
+
+    <br>
+
+    <input type="submit" id="submit" value="등록">
+
+</form>
+<script>
+    //예산 슬라이더 값 조정
+    const slider = document.getElementById('price');
+    const output = document.getElementById('priceValue');
+
+    slider.addEventListener('input', () => {
+        output.textContent = slider.value + "천 원";
+    });
+
+    //등록하기
+    const form = document.getElementById('selectForm');
+    form.addEventListener('submit', async e => {
+        e.preventDefault();
+
+        // 점심 메뉴 데이터 가져오기
+        const name = document.getElementById('name').value;
+        const spicylevel = document.getElementById('spicylevel').value;
+        const budget = document.getElementById('price').value;
+        const foodType = document.querySelector('input[name="foodType"]:checked').value;
+        const time = new Date().toLocaleDateString();
+
+        const newMenu = {
+            name,
+            spicylevel,
+            budget,
+            foodType,
+            time
+        };
+
+        alert('점심 메뉴 등록 완료!');
+        console.log(name, spicylevel, budget, foodType,time);
+
+        await addMenu(newMenu);
+        await getAllMenu();
+        await getMenuById(1);
+    });
+
+    //GET 메뉴 전체 조회
+    async function getAllMenu() {
+        //mork 서버에 get 요청
+        const url = "https://696683a5-297e-4147-b7a2-30c33754b9b7.mock.pstmn.io/menu"
+        const response = await fetch(url, {
+            method: "GET"
+        });
+
+        //요청 결과 출력
+        const data = await response.json();
+        console.log("get all 결과:", data);
+
+    }
+
+    //GET 특정 메뉴 조회
+    async function getMenuById(id) {
+
+        //mork 서버에 get 요청
+        const url = "https://696683a5-297e-4147-b7a2-30c33754b9b7.mock.pstmn.io/menu/${id}"
+        const response = await fetch(url, {
+            method: "GET"
+        });
+
+        //요청 결과 출력 및 예외처리
+        if (response.status === 404) {
+            console.warn(`get by id 실패: ID ${id}는 존재하지 않습니다.`);
+            return null;
+        } else if (response.ok) {
+            const data = await response.json();
+            console.log("get 성공", data);
+        }
+    }
+
+    //POST 새 메뉴 등록
+    async function addMenu(menuData) {
+
+        const url = "https://696683a5-297e-4147-b7a2-30c33754b9b7.mock.pstmn.io/menu"
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(menuData)
+        });
+
+        if (response.ok) {
+            console.log("메뉴 등록 성공!");
+        } else {
+            console.error("메뉴 등록 실패:", response.status, response.statusText);
+        }
+
+    }
+
+
+</script>
+</body>
+</html>

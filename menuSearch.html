@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>점심 메뉴 추천기</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+      padding: 20px;
+    }
+
+    table {
+      width: 90%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      font-size: 16px;
+      border: 2px solid #3CB4A5;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #3CB4A5;
+    }
+
+    th {
+      background-color: #3CB4A5;
+      color: white;
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background-color: #E0F2F1;
+    }
+
+    h1 {
+      text-align: center;
+      color: #3CB4A5;
+    }
+
+  </style>
+</head>
+<body>
+<form id="selectForm">
+  <h1>메뉴 조회</h1>
+  <table id="menuTable">
+    <thead>
+    <tr>
+      <th>이름</th>
+      <th>가격</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
+
+</form>
+<script>
+
+  //목록 데이터 초기화
+  const table = document.getElementById("menuTable");
+  setTable();
+
+  function setTable() {
+    const data = [
+      {"이름": "짜장면", "가격": "5000"},
+      {"이름": "카레", "가격": "7000"}
+    ];
+
+    const tbody = document.querySelector("#menuTable tbody");
+
+    for (let i = 0; i < data.length; i++) {
+      const row = document.createElement("tr");
+      const item = data[i];
+
+      // 이름 셀에 링크 넣기
+      const nameCell = document.createElement("td");
+      const link = document.createElement("a");
+      link.href = "06_detail.html?id=2";
+      link.textContent = item["이름"];
+      link.target = "_blank"; // 새 탭
+      nameCell.appendChild(link);
+      row.appendChild(nameCell);
+
+      // 가격 셀
+      const priceCell = document.createElement("td");
+      priceCell.textContent = item["가격"];
+      row.appendChild(priceCell);
+
+      tbody.appendChild(row);
+    }
+  }
+
+  //GET 메뉴 전체 조회
+  async function getAllMenu() {
+//    const url = "http://localhost:3000/menu";
+    const url = "https://696683a5-297e-4147-b7a2-30c33754b9b7.mock.pstmn.io/menu"
+    const response = await fetch(url, {
+      method: "GET"
+    });
+
+    const data = await response.json();
+    console.log("get all 결과:", data);
+
+  }
+
+  //GET 특정 메뉴 조회
+  async function getMenuById(id) {
+
+//    const url = "http://localhost:3000/menu/${id}";
+    const url = "https://696683a5-297e-4147-b7a2-30c33754b9b7.mock.pstmn.io/menu/${id}"
+
+    const response = await fetch(url, {
+      method: "GET"
+    });
+
+    const data = await response.json();
+    console.log("get by id 결과:", data);
+
+  }
+
+  //POST 새 메뉴 등록
+  async function addMenu(menuData) {
+
+//    const url = "http://localhost:3000/menu";
+    const url = "https://696683a5-297e-4147-b7a2-30c33754b9b7.mock.pstmn.io/menu"
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(menuData)
+    });
+
+  }
+
+  //PUT 특정 메뉴 수정
+  async function modifyMenuById(id, menuData) {
+    const url = "https://696683a5-297e-4147-b7a2-30c33754b9b7.mock.pstmn.io/menu/${id}"
+    // const url = "http://localhost:3000/menu/${id}";
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(menuData)
+    });
+
+  }
+
+</script>
+</body>
+</html>

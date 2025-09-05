@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #f4f4f4;
+    }
+
+    /* 조회 버튼 스타일 */
+    .search-button {
+        background-color: #3CB4A5;
+        color: white;
+        padding: 15px 30px;
+        margin: 10px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 등록 버튼 스타일 */
+    .register-button {
+        background-color: #FF7F50;
+        color: white;
+        padding: 15px 30px;
+        margin: 10px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+</style>
+<body>
+<button id="search" class="search-button"> 조회</button>
+<button id="register" class="register-button"> 등록</button>
+</body>
+<script>
+    document.getElementById("search").addEventListener('click', function () {
+        location.href = 'menuSearch.html';
+    });
+    document.getElementById("register").addEventListener('click', function () {
+        location.href = 'menuRegister.html';
+    });
+</script>
+</html>
