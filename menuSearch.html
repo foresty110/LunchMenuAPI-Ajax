@@ -98,7 +98,6 @@
 
   //GET 메뉴 전체 조회
   async function getAllMenu() {
-//    const url = "http://localhost:3000/menu";
     const url = "https://696683a5-297e-4147-b7a2-30c33754b9b7.mock.pstmn.io/menu"
     const response = await fetch(url, {
       method: "GET"
@@ -111,8 +110,6 @@
 
   //GET 특정 메뉴 조회
   async function getMenuById(id) {
-
-//    const url = "http://localhost:3000/menu/${id}";
     const url = "https://696683a5-297e-4147-b7a2-30c33754b9b7.mock.pstmn.io/menu/${id}"
 
     const response = await fetch(url, {
@@ -124,35 +121,6 @@
 
   }
 
-  //POST 새 메뉴 등록
-  async function addMenu(menuData) {
-
-//    const url = "http://localhost:3000/menu";
-    const url = "https://696683a5-297e-4147-b7a2-30c33754b9b7.mock.pstmn.io/menu"
-
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(menuData)
-    });
-
-  }
-
-  //PUT 특정 메뉴 수정
-  async function modifyMenuById(id, menuData) {
-    const url = "https://696683a5-297e-4147-b7a2-30c33754b9b7.mock.pstmn.io/menu/${id}"
-    // const url = "http://localhost:3000/menu/${id}";
-    const response = await fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(menuData)
-    });
-
-  }
 
 </script>
 </body>
